@@ -9,9 +9,13 @@ def normalize(u, v):
     v[0] /= norm
 
 
-h = 0.1
+def squared(a):
+    return a*a
 
-distance = 3
+
+h = 0.1  # size of the intervals of t
+
+distance = 8  # total t
 
 lineX = [-0.5]  # initial x position
 
@@ -21,21 +25,19 @@ p = [0.07]  # initial x velocity
 
 q = [-0.49]  # initial y velocity
 
-normalize(p, q)
-
 lineZ = [lineX[0]*lineY[0]]
 
 for i in range(0, int((distance/h)-1)):
     p.append(p[i] - (2*h*lineY[i]*p[i]*q[i]) /
-             (1+(lineX[i]*lineX[i])+(lineY[i]*lineY[i])))
+             (1+squared(lineX[i])+squared(lineY[i])))
     q.append(q[i] - (2*h*lineX[i]*p[i]*q[i]) /
-             (1+(lineX[i]*lineX[i])+(lineY[i]*lineY[i])))
+             (1+squared(lineX[i])+squared(lineY[i])))
     lineX.append(lineX[i] + h*p[i])
     lineY.append(lineY[i] + h*q[i])
     lineZ.append(lineX[i+1]*lineY[i+1])
 
 trace = go.Scatter3d(
-    x=lineX, y=lineY, z=lineZ
+    x=lineX, y=lineY, z=lineZ, line=dict(width=5)
 )
 
 surfaceX = [i/100 for i in range(-500, 500)]
@@ -49,13 +51,13 @@ i = 0
 for u in surfaceX:
     j = 0
     for v in surfaceY:
-        if (u*u + v*v <= 9):
+        if (squared(u) + squared(v) <= 9):
             surfaceZ[i][j] = u*v
         j += 1
     i += 1
 
 data = [
-    go.Surface(x=surfaceX, y=surfaceY, z=surfaceZ),
+    go.Surface(x=surfaceX, y=surfaceY, z=surfaceZ, opacity=0.8),
     trace
 ]
 
