@@ -3,12 +3,6 @@ import plotly.graph_objs as go
 from math import sqrt
 
 
-def normalize(u, v):
-    norm = sqrt(u[0]*u[0] + v[0]*v[0])
-    u[0] /= norm
-    v[0] /= norm
-
-
 def squared(a):
     return a*a
 
@@ -37,7 +31,7 @@ for i in range(0, int((distance/h)-1)):
     lineZ.append(lineX[i+1]*lineY[i+1])
 
 trace = go.Scatter3d(
-    x=lineX, y=lineY, z=lineZ, line=dict(width=5)
+    x=lineX, y=lineY, z=lineZ, line=dict(width=10), marker=dict(size=6)
 )
 
 surfaceX = [i/100 for i in range(-500, 500)]
