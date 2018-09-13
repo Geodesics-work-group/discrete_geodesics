@@ -1,11 +1,8 @@
 import plotly.offline as py
 import plotly.graph_objs as go
-from math import sqrt
+from numpy import *
 
-
-def squared(a):
-    return a*a
-
+# Geodesic curve
 
 h = 0.1  # size of the intervals of t
 
@@ -23,9 +20,9 @@ lineZ = [lineX[0]*lineY[0]]
 
 for i in range(0, int((distance/h)-1)):
     p.append(p[i] - (2*h*lineY[i]*p[i]*q[i]) /
-             (1+squared(lineX[i])+squared(lineY[i])))
+             (1+square(lineX[i])+square(lineY[i])))
     q.append(q[i] - (2*h*lineX[i]*p[i]*q[i]) /
-             (1+squared(lineX[i])+squared(lineY[i])))
+             (1+square(lineX[i])+square(lineY[i])))
     lineX.append(lineX[i] + h*p[i])
     lineY.append(lineY[i] + h*q[i])
     lineZ.append(lineX[i+1]*lineY[i+1])
@@ -34,9 +31,9 @@ trace = go.Scatter3d(
     x=lineX, y=lineY, z=lineZ, line=dict(width=10), marker=dict(size=6)
 )
 
-surfaceX = [i/100 for i in range(-500, 500)]
+# Paraboloid
 
-surfaceY = [i/100 for i in range(-500, 500)]
+surfaceX = surfaceY = linspace(-3, 3, 300)
 
 surfaceZ = [['nan' for j in surfaceY] for i in surfaceX]
 
@@ -45,7 +42,7 @@ i = 0
 for u in surfaceX:
     j = 0
     for v in surfaceY:
-        if (squared(u) + squared(v) <= 9):
+        if (square(u) + square(v) <= 9):
             surfaceZ[i][j] = u*v
         j += 1
     i += 1
@@ -55,4 +52,4 @@ data = [
     trace
 ]
 
-py.plot(data)
+py.plot(data, filename='paraboloid.html')
