@@ -49,6 +49,8 @@ trace = go.Scatter3d(
 
 u = linspace(-pi/2, pi/2, 100)
 v = linspace(0, 2*pi, 200)
+
+vGrid, uGrid = meshgrid(u, v)
 surfaceX = outer(cos(v), cos(u))
 surfaceY = outer(sin(v), cos(u))
 surfaceZ = outer(ones(200), sin(u))
