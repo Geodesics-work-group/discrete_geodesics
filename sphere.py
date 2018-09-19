@@ -11,7 +11,7 @@ def normalize(u, v):
     v[0] = v[0] / norm
 
 
-h = 0.001  # size of the intervals of t
+h = 0.1  # size of the intervals of t
 
 distance = 2*pi  # total t
 
@@ -31,7 +31,7 @@ lineY = [sin(v[0])*cos(u[0])]
 
 lineZ = [sin(u[0])]
 
-for i in range(0, int((distance/h)-1)):
+for i in range(0, int((distance/h))):
     p.append(p[i] - h*(cos(u[i])*sin(u[i])*square(q[i])))
     q.append(q[i] + h*(2*tan(u[i])*p[i]*q[i]))
     u.append(u[i] + h*p[i])

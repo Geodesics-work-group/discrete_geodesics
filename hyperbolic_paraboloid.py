@@ -2,11 +2,18 @@ import plotly.offline as py
 import plotly.graph_objs as go
 from numpy import *
 
+
+def normalize(u, v):
+    norm = sqrt(square(u[0]) + square(v[0]))
+    u[0] = u[0] / norm
+    v[0] = v[0] / norm
+
 # Geodesic curve
 
-h = 0.1  # size of the intervals of t
 
-distance = 8  # total t
+h = 0.5  # size of the intervals of t
+
+distance = 4  # total t
 
 lineX = [-0.5]  # initial x position
 
@@ -16,9 +23,11 @@ p = [0.07]  # initial x velocity
 
 q = [-0.49]  # initial y velocity
 
+normalize(p, q)
+
 lineZ = [lineX[0]*lineY[0]]
 
-for i in range(0, int((distance/h)-1)):
+for i in range(0, int((distance/h))):
     p.append(p[i] - (2*h*lineY[i]*p[i]*q[i]) /
              (1+square(lineX[i])+square(lineY[i])))
     q.append(q[i] - (2*h*lineX[i]*p[i]*q[i]) /

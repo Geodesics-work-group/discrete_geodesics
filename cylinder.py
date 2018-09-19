@@ -29,7 +29,8 @@ lineX = [sin(u[0])]
 
 lineY = [cos(u[0])]
 
-for i in range(0, int((distance/h)-1)):
+
+for i in range(0, int((distance/h))):
     p.append(p[i])
     q.append(q[i])
     u.append(u[i] + h*p[i])
