@@ -3,11 +3,6 @@ import plotly.graph_objs as go
 from numpy import *
 
 
-def normalize(u, v):
-    norm = sqrt(square(u[0]) + square(v[0]))
-    u[0] = u[0] / norm
-    v[0] = v[0] / norm
-
 # Geodesic curve
 
 
@@ -15,29 +10,27 @@ h = 0.5  # size of the intervals of t
 
 distance = 4  # total t
 
-lineX = [-0.5]  # initial x position
+u = [-0.5]  # initial x position
 
-lineY = [2.2]  # initial y position
+v = [2.2]  # initial y position
 
 p = [0.07]  # initial x velocity
 
 q = [-0.49]  # initial y velocity
 
-normalize(p, q)
-
-lineZ = [lineX[0]*lineY[0]]
+lineZ = [u[0]*v[0]]
 
 for i in range(0, int((distance/h))):
-    p.append(p[i] - (2*h*lineY[i]*p[i]*q[i]) /
-             (1+square(lineX[i])+square(lineY[i])))
-    q.append(q[i] - (2*h*lineX[i]*p[i]*q[i]) /
-             (1+square(lineX[i])+square(lineY[i])))
-    lineX.append(lineX[i] + h*p[i])
-    lineY.append(lineY[i] + h*q[i])
-    lineZ.append(lineX[i+1]*lineY[i+1])
+    p.append(p[i] - (2*h*v[i]*p[i]*q[i]) /
+             (1+square(u[i])+square(v[i])))
+    q.append(q[i] - (2*h*u[i]*p[i]*q[i]) /
+             (1+square(u[i])+square(v[i])))
+    u.append(u[i] + h*p[i])
+    v.append(v[i] + h*q[i])
+    lineZ.append(u[i+1]*v[i+1])
 
 trace = go.Scatter3d(
-    x=lineX, y=lineY, z=lineZ, line=dict(width=10), marker=dict(size=6)
+    x=u, y=v, z=lineZ, line=dict(width=10), marker=dict(size=6)
 )
 
 # Paraboloid
@@ -48,11 +41,11 @@ surfaceZ = [['nan' for j in surfaceY] for i in surfaceX]
 
 i = 0
 
-for u in surfaceX:
+for x in surfaceX:
     j = 0
-    for v in surfaceY:
-        if (square(u) + square(v) <= 9):
-            surfaceZ[i][j] = u*v
+    for y in surfaceY:
+        if (square(x) + square(y) <= 9):
+            surfaceZ[i][j] = x*y
         j += 1
     i += 1
 
